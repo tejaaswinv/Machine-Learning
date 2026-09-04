@@ -13,6 +13,11 @@ from torchvision.transforms import functional as TF
 from model import CharacterCNN
 
 
+def fix_emnist_orientation(img):
+    """Rotate/flip EMNIST samples into normal upright writing orientation."""
+    return TF.hflip(TF.rotate(img, -90))
+
+
 class RelabelDataset(Dataset):
     """Wrap a dataset and remap its integer class labels."""
 
@@ -38,7 +43,7 @@ def build_datasets(kind):
     ])
 
     emnist_tfm = transforms.Compose([
-        transforms.Lambda(lambda img: TF.hflip(TF.rotate(img, -90))),
+        transforms.Lambda(fix_emnist_orientation),
         transforms.ToTensor(),
         transforms.Normalize((0.1307,), (0.3081,)),
     ])
