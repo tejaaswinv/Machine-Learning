@@ -7,7 +7,7 @@ class CharacterCNN(nn.Module):
         self.features = nn.Sequential(
             nn.Conv2d(1,32,3,padding=1), nn.ReLU(), nn.BatchNorm2d(32), nn.MaxPool2d(2),
             nn.Conv2d(32,64,3,padding=1), nn.ReLU(), nn.BatchNorm2d(64), nn.MaxPool2d(2),
-            nn.Conv2d(64,128,3,padding=1), nn.ReLU(), nn.AdaptiveAvgPool2d((4,4)),
+            nn.Conv2d(64,128,3,padding=1), nn.ReLU(), nn.AvgPool2d(kernel_size=4, stride=1),
         )
         self.classifier = nn.Sequential(
             nn.Flatten(), nn.Linear(128*4*4,256), nn.ReLU(), nn.Dropout(.35), nn.Linear(256,n_classes)
